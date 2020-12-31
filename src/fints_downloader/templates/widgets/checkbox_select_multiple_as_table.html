@@ -1,0 +1,15 @@
+{% load i18n %}
+<thead>
+    <tr>
+        <th class="col-1"> </th>
+        <th class="col-11">{% trans 'Date' %}</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td class="col-1">
+            <input type="checkbox" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>
+        </td>
+        <td class="col-11">TEST</td>
+    </tr>
+</tbody>

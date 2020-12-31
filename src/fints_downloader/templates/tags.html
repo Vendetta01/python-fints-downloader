@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Tag list</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Pattern</th>
+      <th>Type</th>
+      <th>Sum of tagged transactions</th>
+      <th># of tagged transactions</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for tag in tags %}
+    <tr>
+      <td><a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a></td>
+      <td>{{tag.pattern}}</td>
+      <td>{{tag.type}}</td>
+      <td>{{tag.get_sum_transactions}}</td>
+      <td>{{tag.count_transactions}}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,83 @@
+@startuml fints_downloader_model
+
+object BaseModel
+BaseModel : id[PK]: STRING(64)
+BaseModel : last_update: DATETIME
+
+object FinTSDownloaderBackend
+FinTSDownloaderBackend : name: STRING(1024)
+FinTSDownloaderBackend : server: STRING(1024)
+FinTSDownloaderBackend : port: NUMBER(30)
+FinTSDownloaderBackend : base_url: STRING(1024)
+
+object BankLogin
+BankLogin : name: STRING(1024)
+BankLogin : user_id: STRING(1024)
+BankLogin : password: STRING(1024)
+BankLogin : tan_mechanism: STRING(3)
+BankLogin : bic: STRING(11)
+BankLogin : code: NUMBER(8)
+BankLogin : server: STRING(1024)
+
+object Account
+Account : bank_login_id[FK]: STRING(64)
+Account : iban: STRING(34)
+Account : number: NUMBER(30)
+Account : bic: STRING(11)
+Account : type: ENUM
+Account : name: STRING(256)
+Account : init_balance NUMBER(32,2)
+
+object Balance
+Balance : account_id[FK]: STRING(64)
+Balance : amount: NUMBER(32,2)
+Balance : currency: ENUM
+Balance : valid_datetime: DATETIME
+
+object Holding
+Holding : account_id[FK]: STRING(64)
+Holding : ISIN: STRING(12)
+Holding : WKN: STRING(6)
+Holding : name: STRING(256)
+Holding : market_value: NUMBER(32,2)
+Holding : value_symbol: STRING(8)
+Holding : valuation_date: DATE
+Holding : pieces: NUMBER(30)
+Holding : total_value: NUMBER(32,2)
+Holding : acquisitionprice: NUMBER(32,2)
+
+object Transaction
+Transaction : amount: NUMBER(32,2)
+Transaction : currency: ENUM
+Transaction : src_id[FK]: STRING(64)
+Transaction : dst_id[FK]: STRING(64)
+Transaction : date: DATE
+Transaction : posting_text: STRING(128)
+Transaction : purpose: STRING(1024)
+Transaction : transaction_code NUMBER(30,0)
+
+object Tag
+Tag : name[PK]: STRING(1024)
+Tag : pattern: STRING(1024)
+
+object Category
+Category : name[PK] STRING(1024)
+
+
+BaseModel <|-- FinTSDownloaderBackend
+BaseModel <|-- BankLogin
+BaseModel <|-- Account
+BaseModel <|-- Balance
+BaseModel <|-- Holding
+BaseModel <|-- Transaction
+
+
+BankLogin "1" -- "0..*" Account
+Account "1" -- "0..*" Balance
+Account "1" -- "0..*" Holding
+Account "1" -- "0..*" Transaction : "src"
+Account "0..1" -- "0..*" Transaction : "dst"
+Transaction "0..n" -- "0..m" Tag
+Transaction "0..n" -- "0..1" Category
+
+@enduml

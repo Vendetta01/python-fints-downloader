@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="646px" preserveAspectRatio="none" style="width:672px;height:646px;" version="1.1" viewBox="0 0 672 646" width="672px" zoomAndPan="magnify"><defs><filter height="300%" id="fnr2dxr5cww1t" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="49.25" style="stroke:#A80036;stroke-width:1.5;" width="125" x="279" y="7"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="68" x="307.5" y="20.1387">BaseModel</text><line style="stroke:#A80036;stroke-width:1.5;" x1="280" x2="403" y1="24.9688" y2="24.9688"/><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="94" x="285" y="38.251">id[PK]: STRING(64)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="113" x="285" y="49.8916">last_update: DATETIME</text><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="33.9688" style="stroke:#A80036;stroke-width:1.5;" width="175" x="7" y="117"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="161" x="14" y="130.1387">FinTSDownloaderBackend</text><line style="stroke:#A80036;stroke-width:1.5;" x1="8" x2="181" y1="134.9688" y2="134.9688"/><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="33.9688" style="stroke:#A80036;stroke-width:1.5;" width="78" x="430.5" y="117"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="64" x="437.5" y="130.1387">BankLogin</text><line style="stroke:#A80036;stroke-width:1.5;" x1="431.5" x2="507.5" y1="134.9688" y2="134.9688"/><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="107.4531" style="stroke:#A80036;stroke-width:1.5;" width="160" x="359.5" y="212"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="51" x="414" y="225.1387">Account</text><line style="stroke:#A80036;stroke-width:1.5;" x1="360.5" x2="518.5" y1="229.9688" y2="229.9688"/><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="148" x="365.5" y="243.251">bank_login_id[FK]: STRING(64)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="84" x="365.5" y="254.8916">iban: STRING(34)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="110" x="365.5" y="266.5322">number: NUMBER(30)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="77" x="365.5" y="278.1729">bic: STRING(11)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="60" x="365.5" y="289.8135">type: ENUM</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="98" x="365.5" y="301.4541">name: STRING(256)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="134" x="365.5" y="313.0947">init_balance NUMBER(32,2)</text><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="72.5313" style="stroke:#A80036;stroke-width:1.5;" width="148" x="102.5" y="430.5"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="50" x="151.5" y="443.6387">Balance</text><line style="stroke:#A80036;stroke-width:1.5;" x1="103.5" x2="249.5" y1="448.4688" y2="448.4688"/><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="136" x="108.5" y="461.751">account_id[FK]: STRING(64)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="119" x="108.5" y="473.3916">amount: NUMBER(32,2)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="80" x="108.5" y="485.0322">currency: ENUM</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="128" x="108.5" y="496.6729">valid_datetime: DATETIME</text><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="142.375" style="stroke:#A80036;stroke-width:1.5;" width="166" x="285.5" y="396"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="47" x="345" y="409.1387">Holding</text><line style="stroke:#A80036;stroke-width:1.5;" x1="286.5" x2="450.5" y1="413.9688" y2="413.9688"/><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="136" x="291.5" y="427.251">account_id[FK]: STRING(64)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="85" x="291.5" y="438.8916">ISIN: STRING(12)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="82" x="291.5" y="450.5322">WKN: STRING(6)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="98" x="291.5" y="462.1729">name: STRING(256)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="147" x="291.5" y="473.8135">market_value: NUMBER(32,2)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="124" x="291.5" y="485.4541">value_symbol: STRING(8)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="104" x="291.5" y="497.0947">valuation_date: DATE</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="102" x="291.5" y="508.7354">pieces: NUMBER(30)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="134" x="291.5" y="520.376">total_value: NUMBER(32,2)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="154" x="291.5" y="532.0166">acquisitionprice: NUMBER(32,2)</text><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="119.0938" style="stroke:#A80036;stroke-width:1.5;" width="172" x="486.5" y="407.5"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="74" x="535.5" y="420.6387">Transaction</text><line style="stroke:#A80036;stroke-width:1.5;" x1="487.5" x2="657.5" y1="425.4688" y2="425.4688"/><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="119" x="492.5" y="438.751">amount: NUMBER(32,2)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="80" x="492.5" y="450.3916">currency: ENUM</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="112" x="492.5" y="462.0322">src_id[FK]: STRING(64)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="113" x="492.5" y="473.6729">dst_id[FK]: STRING(64)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="55" x="492.5" y="485.3135">date: DATE</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="130" x="492.5" y="496.9541">posting_text: STRING(128)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="115" x="492.5" y="508.5947">purpose: STRING(1024)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="160" x="492.5" y="520.2354">transaction_code NUMBER(30,0)</text><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="33.9688" style="stroke:#A80036;stroke-width:1.5;" width="37" x="509" y="599"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="23" x="516" y="612.1387">Tag</text><line style="stroke:#A80036;stroke-width:1.5;" x1="510" x2="545" y1="616.9688" y2="616.9688"/><rect fill="#FEFECE" filter="url(#fnr2dxr5cww1t)" height="33.9688" style="stroke:#A80036;stroke-width:1.5;" width="70" x="581.5" y="599"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="56" x="588.5" y="612.1387">Category</text><line style="stroke:#A80036;stroke-width:1.5;" x1="582.5" x2="650.5" y1="616.9688" y2="616.9688"/><!--MD5=[8fc555f242209114019a7e0ffedd0dd3]
+reverse link BaseModel to FinTSDownloaderBackend--><path codeLine="66" d="M264.63,63.61 C246.54,70.94 227.34,78.74 209.5,86 C184.23,96.29 155.85,107.88 133.61,116.98 " fill="none" id="BaseModel-backto-FinTSDownloaderBackend" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="none" points="262.17,57.06,283.33,56.03,267.42,70.03,262.17,57.06" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[d92cf5a0219e1cdc1cbf85345003700c]
+reverse link BaseModel to BankLogin--><path codeLine="67" d="M387.24,68.41 C408.31,84.96 432.26,103.76 448.86,116.8 " fill="none" id="BaseModel-backto-BankLogin" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="none" points="382.92,73.92,371.51,56.06,391.56,62.91,382.92,73.92" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[cc8c4cd05d0063829c2c0e14150f4c59]
+reverse link BaseModel to Account--><path codeLine="68" d="M359.25,74.53 C375.52,113.04 399.67,170.21 417.23,211.78 " fill="none" id="BaseModel-backto-Account" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="none" points="352.77,77.17,351.44,56.02,365.67,71.72,352.77,77.17" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[e7d1bfe106e0486ff5096c8b377e5f7e]
+reverse link BaseModel to Balance--><path codeLine="69" d="M325.34,74.94 C292.87,160.26 220.21,351.15 190.04,430.43 " fill="none" id="BaseModel-backto-Balance" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="none" points="318.85,72.32,332.51,56.11,331.94,77.3,318.85,72.32" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[21732c2b9f982dd9c586054779cfb7db]
+reverse link BaseModel to Holding--><path codeLine="70" d="M339.02,76.64 C336.43,133 333.71,233.48 341.5,319 C343.79,344.19 348.26,371.52 352.9,395.7 " fill="none" id="BaseModel-backto-Holding" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="none" points="332.05,75.96,340.04,56.34,346.03,76.66,332.05,75.96" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[4ea4927a8f25a9ab4730c0dd052662a4]
+reverse link BaseModel to Transaction--><path codeLine="71" d="M423.53,50.59 C460.72,63.04 501.8,83.59 526.5,117 C589.54,202.26 588.26,332.26 580.89,407.19 " fill="none" id="BaseModel-backto-Transaction" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="none" points="421.35,57.24,404.27,44.71,425.44,43.85,421.35,57.24" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[358fdbd88648163689b29c1a0f6a70dc]
+link BankLogin to Account--><path codeLine="74" d="M465.76,151.14 C462.23,166.39 456.73,190.13 451.67,211.96 " fill="none" id="BankLogin-Account" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="455.2929" y="171.087">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="428.76" y="200.8031">0..*</text><!--MD5=[f42fa460ac4d26894c3f0a514345257a]
+link Account to Balance--><path codeLine="75" d="M369.08,319.26 C337.9,342.69 300.81,370.65 267.5,396 C252.91,407.11 237.05,419.27 222.72,430.3 " fill="none" id="Account-Balance" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="351.0798" y="339.5372">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="205.9045" y="419.5473">0..*</text><!--MD5=[50ee7cb98d35650cb2756fad74a898de]
+link Account to Holding--><path codeLine="76" d="M420.75,319.18 C412.41,342.61 402.47,370.54 393.51,395.72 " fill="none" id="Account-Holding" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="409.693" y="339.4464">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="371.8399" y="385.0201">0..*</text><!--MD5=[6bd399dd209ecb8775ea4fbe013b111a]
+link Account to Transaction--><path codeLine="77" d="M474.62,319.18 C492.7,346.31 514.81,379.46 533.43,407.4 " fill="none" id="Account-Transaction" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="19" x="502.5" y="362.0669">src</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="8" x="470.8018" y="339.4464">1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="504.2668" y="396.2915">0..*</text><!--MD5=[6bd399dd209ecb8775ea4fbe013b111a]
+link Account to Transaction--><path codeLine="78" d="M448.7,319.02 C452.91,334.85 458.94,351.78 467.5,366 C476.4,380.77 488.05,394.8 500.35,407.42 " fill="none" id="Account-Transaction-1" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="20" x="468.5" y="362.0669">dst</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="24" x="424.3063" y="339.6453">0..1</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="467.1552" y="396.3139">0..*</text><!--MD5=[a7a0d88bdffff53f66009016a685a13c]
+link Transaction to Tag--><path codeLine="79" d="M554.59,526.52 C546.6,552.62 537.8,581.36 532.46,598.79 " fill="none" id="Transaction-Tag" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="24" x="526.9447" y="546.7573">0..n</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="29" x="500.4191" y="588.0067">0..m</text><!--MD5=[7ef64f47addda298d710b21af9381306]
+link Transaction to Category--><path codeLine="80" d="M590.02,526.52 C597.83,552.62 606.43,581.36 611.65,598.79 " fill="none" id="Transaction-Category" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="24" x="566.6927" y="546.7573">0..n</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="24" x="582.2791" y="588.0067">0..1</text><!--MD5=[7fcffdb4c37daedcd30e0019f2852e3a]
+@startuml fints_downloader_model
+
+object BaseModel
+BaseModel : id[PK]: STRING(64)
+BaseModel : last_update: DATETIME
+
+object FinTSDownloaderBackend
+FinTSDownloaderBackend : name: STRING(1024)
+FinTSDownloaderBackend : server: STRING(1024)
+FinTSDownloaderBackend : port: NUMBER(30)
+FinTSDownloaderBackend : base_url: STRING(1024)
+
+object BankLogin
+BankLogin : name: STRING(1024)
+BankLogin : user_id: STRING(1024)
+BankLogin : password: STRING(1024)
+BankLogin : tan_mechanism: STRING(3)
+BankLogin : bic: STRING(11)
+BankLogin : code: NUMBER(8)
+BankLogin : server: STRING(1024)
+
+object Account
+Account : bank_login_id[FK]: STRING(64)
+Account : iban: STRING(34)
+Account : number: NUMBER(30)
+Account : bic: STRING(11)
+Account : type: ENUM
+Account : name: STRING(256)
+Account : init_balance NUMBER(32,2)
+
+object Balance
+Balance : account_id[FK]: STRING(64)
+Balance : amount: NUMBER(32,2)
+Balance : currency: ENUM
+Balance : valid_datetime: DATETIME
+
+object Holding
+Holding : account_id[FK]: STRING(64)
+Holding : ISIN: STRING(12)
+Holding : WKN: STRING(6)
+Holding : name: STRING(256)
+Holding : market_value: NUMBER(32,2)
+Holding : value_symbol: STRING(8)
+Holding : valuation_date: DATE
+Holding : pieces: NUMBER(30)
+Holding : total_value: NUMBER(32,2)
+Holding : acquisitionprice: NUMBER(32,2)
+
+object Transaction
+Transaction : amount: NUMBER(32,2)
+Transaction : currency: ENUM
+Transaction : src_id[FK]: STRING(64)
+Transaction : dst_id[FK]: STRING(64)
+Transaction : date: DATE
+Transaction : posting_text: STRING(128)
+Transaction : purpose: STRING(1024)
+Transaction : transaction_code NUMBER(30,0)
+
+object Tag
+Tag : name[PK]: STRING(1024)
+Tag : pattern: STRING(1024)
+
+object Category
+Category : name[PK] STRING(1024)
+
+
+BaseModel <|- - FinTSDownloaderBackend
+BaseModel <|- - BankLogin
+BaseModel <|- - Account
+BaseModel <|- - Balance
+BaseModel <|- - Holding
+BaseModel <|- - Transaction
+
+
+BankLogin "1" - - "0..*" Account
+Account "1" - - "0..*" Balance
+Account "1" - - "0..*" Holding
+Account "1" - - "0..*" Transaction : "src"
+Account "0..1" - - "0..*" Transaction : "dst"
+Transaction "0..n" - - "0..m" Tag
+Transaction "0..n" - - "0..1" Category
+
+@enduml
+
+PlantUML version 1.2020.26(Mon Dec 21 18:45:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: de
+Country: DE
+--></g></svg>

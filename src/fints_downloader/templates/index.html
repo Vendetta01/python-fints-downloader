@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>FinTS Downloader</h1>
+  <p>Welcome to FinTS Downloader, a tool to retrieve and store financial data for personal accounts.</p>
+  <h2>Dynamic content</h2>
+  <p>Inventory:</p>
+  <ul>
+    <li><strong>BankLogins:</strong> {{ counts.bank_logins }}</li>
+    <li><strong>Accounts:</strong> {{ counts.accounts }}</li>
+    <li><strong>Transactions:</strong> {{ counts.transactions }}</li>
+    <li><strong>Holdings:</strong> {{ counts.holdings }}</li>
+  </ul>
+{% endblock %}

@@ -1,0 +1,7 @@
+.vscode
+env/*
+*.pyc
+*.pyo
+develop-eggs
+eggs
+*.sqlite3

@@ -1,0 +1,96 @@
+{% extends "base_generic.html" %}
+{% load i18n %}
+{% load humanize %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class=col text-center>
+            <h1>{% trans 'Transaction list' %}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+            <h3>{% trans 'Uncategorized transactions' %}</h3>
+
+            <table data-classes="table table-striped table-hover"
+                    data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-pagination-switch="true"
+                    data-show-search-clear-button="true"
+                    data-show-toggle="true"
+                    data-sortable="true">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Date' %}</th>
+                        <th>{% trans 'Amount' %}</th>
+                        <th>{% trans 'Purpose' %}</th>
+                        <th>{% trans 'Destination account' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for tr in transactions %}
+                {% if not tr.is_categorized %}
+                    <tr>
+                        <td><a href="{{ tr.get_absolute_url }}">{{tr.date|date:"Y-m-d"}}</a></td>
+                        <td>
+                            {% if tr.amount < 0 %}
+                                <div class="text-danger">
+                            {% else %}
+                                <div class="text-success">
+                            {% endif %}
+                            {{tr.amount|floatformat:2|intcomma}}</div>
+                        </td>
+                        <td>{{tr.purpose}}</td>
+                        <td>{{tr.dst}}</td>
+                    </tr>
+                {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+            <h3>{% trans 'All transactions' %}</h3>
+
+            <table data-classes="table table-striped table-hover"
+                    data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-pagination-switch="true"
+                    data-show-search-clear-button="true"
+                    data-show-toggle="true"
+                    data-sortable="true">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Date' %}</th>
+                        <th>{% trans 'Amount' %}</th>
+                        <th>{% trans 'Purpose' %}</th>
+                        <th>{% trans 'Destination account' %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for tr in transactions %}
+                    <tr>
+                        <td><a href="{{ tr.get_absolute_url }}">{{tr.date|date:"Y-m-d"}}</a></td>
+                        <td>
+                            {% if tr.amount < 0 %}
+                                <div class="text-danger">
+                            {% else %}
+                                <div class="text-success">
+                            {% endif %}
+                            {{tr.amount|floatformat:2|intcomma}}</div>
+                        <td>{{tr.purpose}}</td>
+                        <td>{{tr.dst}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

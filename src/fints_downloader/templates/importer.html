@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Import data</h1>
+
+  <h3>Select account/login credentials:</h3>
+  
+  {% if error_message %}
+    <div class="alert alert-danger" role="alert">
+      <h4>Error:</h4>
+      {{error_message}}
+    </div>
+  {% else %}
+    <form action="" method="post">
+      {% csrf_token %}
+      <table>
+      {{ form.as_table }}
+      </table>
+      <input type="submit" value="Submit">
+    </form>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base_generic.html" %}
+{% load i18n %}
+{% load humanize %}
+
+{% block content %}
+  <h1>{{account.name}}</h1>
+  <div class="section">
+    <!--Row with two equal columns-->
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-body">
+            <h4 class="card-title">{% trans 'Current Balance' %}</h4>
+            <h3 class="card-text">{{ account.get_current_balance|floatformat:2|intcomma }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+          <div class="card-body">
+            <h4 class="card-title">{% trans 'Spending cur. month' %}</h4>
+            <h3 class="card-text">{{ account.get_spending_cur_month|floatformat:2|intcomma }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+          <div class="card-body">
+            <h4 class="card-title">{% trans 'Spending last month' %}</h4>
+            <h3 class="card-text">{{ account.get_spending_last_month|floatformat:2|intcomma }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+          <div class="card-body">
+            <h4 class="card-title">{% trans 'Change last month' %}</h4>
+            <h3 class="card-text">{{ account.get_change_last_month|floatformat:2|intcomma }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">{% trans 'Account details' %}</h3>
+          </div>
+          <div class="box-body">
+            <table class="table table-striped">
+              <tr>
+                <th>{% trans 'TEST1' %}</th>
+              </tr>
+              <tr>
+                <td>TEST2</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="box">
+          <div class="box-header">
+            <h3 class="box-title">{% trans 'Balance' %}</h3>
+          </div>
+          <div class="box-body">
+            <canvas id="balanceChart" width="450" height="250"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+<script type="text/javascript">
+    $.get('{% url "balance" account.id %}', function(data) {
+        var ctx = document.getElementById('balanceChart').getContext("2d");
+        var balanceChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                          source: 'auto'
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
