@@ -9,6 +9,7 @@ click==7.1.2
 dateparser==0.7.6
 Django==3.1.1
 django-chartjs==2.2.1
+django-extensions==3.1.0
 djangorestframework==3.11.1
 elementpath==2.0.2
 fastapi==0.61.1
@@ -25,6 +26,7 @@ packaging==20.4
 pycodestyle==2.6.0
 pycountry==20.7.3
 pydantic==1.6.1
+pydotplus==2.0.2
 pyflakes==2.2.0
 pylint==2.6.0
 pylint-django==2.3.0

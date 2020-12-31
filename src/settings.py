@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'fints_downloader',
     'chartjs',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
