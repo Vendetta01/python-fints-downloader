@@ -5,7 +5,7 @@ IMAGE_NAME:=fints-downloader
 CONTAINER_NAME:=${IMAGE_NAME}
 DOCKER_RUN_ARGS:=-p 8080:8080
 
-.PHONY: run migrate clean build build-nc clean-run tag png
+.PHONY: run migrate clean build build-nc clean-run tag model
 
 
 run: migrate
@@ -31,8 +31,9 @@ build-nc: migrate
 	@echo "Building docker image without cache..."
 	docker build --no-cache -t ${IMAGE_NAME} .
 
-diagram:
-	@echo "Creating PNG of plantuml diagram..."
+model:
+	@echo "Generating model..."
+	./src/manage.py graph_models -t django2018 -o out/model/fints_downloader_generated.png fints_downloader
 	java -jar bin/plantuml.jar -o out/model/ -tpng model.plantuml
 	java -jar bin/plantuml.jar -o out/model/ -tsvg model.plantuml
 #	java -jar bin/plantuml.jar -o out/model/ -tpdf model.plantuml
