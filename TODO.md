@@ -14,5 +14,5 @@
 * [ ] Admin command to trigger import
 * [ ] Implement template for categories
 * [ ] Update model.plantuml (maybe automatically from code???)
-* [ ] Make target for model.plantuml
+* [X] Make target for model.plantuml
 * [ ] Remove Balance
