@@ -4,7 +4,7 @@ from django.db.models import Q, Sum
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from hashlib import sha256
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 
 # TODO: This config should be connected to a user
@@ -44,6 +44,54 @@ class Category(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record."""
         return reverse('category', args=[str(self.id)])
+    
+    def _filter_date(self, mode='ltd)'):
+        cur_date = date.today()
+        filter_date = cur_date
+
+        print(f"__DEBUG2: {cur_date}")
+        print(f"__DEBUG3: {type(cur_date)}")
+
+        if mode.lower() == 'ltd':
+            filter_date = date(1, 1, 1)
+        elif mode.lower() == 'ytd':
+            filter_date = date(cur_date.year, 1, 1)
+        elif mode.lower() == 'mtd':
+            filter_date = date(cur_date.year, cur_date.month, 1)
+        
+        return filter_date
+
+    def transactions(self):
+        return Transaction.objects.filter(category__id=self.id)
+
+    def sum_transactions(self, mode='ltd'):
+        return self.transactions().filter(
+            date__gte=self._filter_date(mode)).aggregate(
+            sum=models.Sum('amount'))['sum'] or 0.
+    
+    def sum_transactions_ltd(self):
+        return self.sum_transactions('ltd')
+
+    def sum_transactions_ytd(self):
+        return self.sum_transactions('ytd')
+
+    def sum_transactions_mtd(self):
+        return self.sum_transactions('mtd')
+
+    def count_transactions(self, mode='ltd'):
+        print(f"__DEBUG0: {self._filter_date(mode)}")
+        print(f"__DEBUG0: {type(self._filter_date(mode))}")
+        return self.transactions().filter(
+            date__gte=self._filter_date(mode)).count()
+    
+    def count_transactions_ltd(self):
+        return self.count_transactions('ltd')
+    
+    def count_transactions_ytd(self):
+        return self.count_transactions('ytd')
+
+    def count_transactions_mtd(self):
+        return self.count_transactions('mtd')
 
 
 class Tag(models.Model):

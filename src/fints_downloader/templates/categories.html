@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load i18n %}
+{% load humanize %}
 
 {% block content %}
 <div class="container">
@@ -10,7 +11,35 @@
     </div>
     <div class="row">
         <div class="col-sm">
-            TODO: Content
+            <table data-classes="table table-striped table-hover"
+                    data-toggle="table"
+                    data-pagination="true"
+                    data-search="true"
+                    data-show-pagination-switch="true"
+                    data-show-search-clear-button="true"
+                    data-show-toggle="true"
+                    data-sortable="true">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Name' %}</th>
+                        <th>{% trans 'LtD # of transactions' %}</th>
+                        <th>{% trans 'LtD Sum transactions' %}</th>
+                        <th>{% trans 'MtD # of transactions' %}</th>
+                        <th>{% trans 'MtD Sum transactions' %}</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                {% for category in categories %}
+                    <tr>
+                        <td><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></td>
+                        <td>{{ category.count_transactions_ltd }}</td>
+                        <td>{{ category.sum_transactions_ltd|floatformat:2|intcomma }}</td>
+                        <td>{{ category.count_transactions_mtd }}</td>
+                        <td>{{ category.sum_transactions_mtd|floatformat:2|intcomma }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

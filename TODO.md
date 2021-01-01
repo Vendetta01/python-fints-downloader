@@ -12,7 +12,9 @@
 * [ ] Category/categories endpoints: model as form to create/update/delete data sets
 * [ ] Write categorizer that handles automatic assignment of categories to new transactions
 * [ ] Admin command to trigger import
-* [ ] Implement template for categories
+* [X] Implement template for categories
 * [ ] Update model.plantuml (maybe automatically from code???)
 * [X] Make target for model.plantuml
 * [ ] Remove Balance
+* [ ] Create Dockerfile
+* [ ] Update accounts template (enable/disable foreign accounts)
