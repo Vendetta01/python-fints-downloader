@@ -44,7 +44,7 @@ class Category(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record."""
         return reverse('category', args=[str(self.id)])
-    
+
     def _filter_date(self, mode='ltd)'):
         cur_date = date.today()
         filter_date = cur_date
@@ -58,7 +58,7 @@ class Category(models.Model):
             filter_date = date(cur_date.year, 1, 1)
         elif mode.lower() == 'mtd':
             filter_date = date(cur_date.year, cur_date.month, 1)
-        
+
         return filter_date
 
     def transactions(self):
@@ -68,7 +68,7 @@ class Category(models.Model):
         return self.transactions().filter(
             date__gte=self._filter_date(mode)).aggregate(
             sum=models.Sum('amount'))['sum'] or 0.
-    
+
     def sum_transactions_ltd(self):
         return self.sum_transactions('ltd')
 
@@ -83,10 +83,10 @@ class Category(models.Model):
         print(f"__DEBUG0: {type(self._filter_date(mode))}")
         return self.transactions().filter(
             date__gte=self._filter_date(mode)).count()
-    
+
     def count_transactions_ltd(self):
         return self.count_transactions('ltd')
-    
+
     def count_transactions_ytd(self):
         return self.count_transactions('ytd')
 
