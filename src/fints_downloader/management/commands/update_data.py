@@ -1,5 +1,15 @@
+from datetime import date, datetime
+import json
+import requests
 from django.core.management.base import BaseCommand, CommandError
-from fints_downloader.models import BankLogin, Account
+from django.db.models import Max
+from fints_downloader.models import BankLogin, Account, Transaction, \
+    FinTSDownloaderBackend
+from fints_downloader.views import importer
+from fints_downloader.utils import format_backend_url,\
+    DateTimeEncoder
+from backend.models import Connection, Account as BackendAccount,\
+    TransactionsIn
 
 
 class Command(BaseCommand):
@@ -23,16 +33,37 @@ class Command(BaseCommand):
             help='Update this iban only'
         )
         parser.add_argument(
-            '-n',
+            '-a',
             '--account_number',
             type=int,
             help='Update this account number only'
+        )
+        parser.add_argument(
+            '-f',
+            '--from_date',
+            type=lambda s: datetime.strptime(s, '%Y-%m-%d'),
+            help='Update from this date on'
+        )
+        parser.add_argument(
+            '-t',
+            '--to_date',
+            type=lambda s: datetime.strptime(s, '%Y-%m-%d'),
+            help='Update up to this date'
+        )
+        parser.add_argument(
+            '-n',
+            '--no_dates',
+            action='store_true',
+            help='Update without date values'
         )
 
     def handle(self, *args, **options):
         interactive = options.get('interactive')
         iban = options.get('iban')
         account_number = options.get('account_number')
+        from_date = options.get('from_date')
+        to_date = options.get('to_date')
+        no_dates = options.get('no_dates')
 
         if iban:
             # Update this iban only
@@ -56,9 +87,20 @@ class Command(BaseCommand):
             # Update all accounts
             for bank_login in BankLogin.objects.all():
                 for account in Account.objects.filter(bank_login=bank_login):
-                    self._update_account(account, interactive)
+                    self._update_account(
+                        account,
+                        interactive,
+                        no_dates,
+                        from_date,
+                        to_date)
 
-    def _update_account(self, account, interactive):
+    def _update_account(
+            self,
+            account,
+            interactive,
+            no_dates,
+            from_date=None,
+            to_date=None):
         if not account.bank_login.enabled:
             self.stdout.write(self.style.WARNING(
                 f"Account '{account}' is disabled, ignoring..."))
@@ -69,10 +111,72 @@ class Command(BaseCommand):
             return
 
         # Update account
-        raise Exception("Not implemented yet")
-        # TODO:
-        # -> extract max transaction date
-        # -> post request on import/transaction
-        # -> extract result from response (where are we redirected to?)
+        if no_dates:
+            from_date = None
+            to_date = None
+        else:
+            if not from_date:
+                # year needs to be 1000, otherwise backend (fints)
+                # produces error (bug?)
+                from_date = Transaction.objects.filter(src=account).aggregate(
+                    Max('date')).get('date_max', date(1000, 1, 1))
+            if not to_date:
+                to_date = date.today()
+
+        fd_backend_url = format_backend_url(
+            FinTSDownloaderBackend.objects.first(),
+            'transactions')
+
+        backend_connection = Connection(
+            user_id=account.bank_login.user_id,
+            pin=account.bank_login.password,
+            server=account.bank_login.server,
+            bank_identifier=account.bank_login.code,
+            tan_mechanism=account.bank_login.tan_mechanism
+        )
+        backend_account = BackendAccount(
+            name=account.name,
+            iban=account.iban,
+            accountnumber=account.number,
+            bic=account.bic)
+        fd_backend_payload = json.dumps(
+            TransactionsIn(
+                connection=backend_connection,
+                account=backend_account,
+                fromDate=from_date,
+                toDate=to_date
+            ).dict(),
+            cls=DateTimeEncoder)
+
+        print(f"__DEBUG5: {fd_backend_payload}")
+
+        r = requests.post(
+            fd_backend_url,
+            data=fd_backend_payload)
+
+        if r.status_code == 401:
+            # TAN required
+            if not interactive:
+                account.bank_login.refresh_from_db()
+                account.bank_login.tan_required = True
+                account.bank_login.save()
+                raise CommandError(f"TAN required for account '{account}'")
+
+            # Here we must print TAN challenge and get user input
+            # TODO
+            raise Exception("Not implemented yet")
+
+        elif r.status_code != 200:
+            raise CommandError(f"Error during backend call: {r.status_code}")
+
+        # If all went well import data
+        print(f"__DEBUG6: {type(r)}")
+        print(f"__DEBUG7: {r}")
+        print(f"__DEBUG8: {r.json()}")
+        importer.ImportTransactionsView().import_data(
+            account.bank_login,
+            account,
+            r.json())
+
         self.stdout.write(self.style.SUCCESS(
             f"Account '{account}' successfully updated."))

@@ -87,8 +87,8 @@ def connect(conInfo: GenericIn):
         state.client = None
         raise HTTPException(
             status_code=400,
-            detail="Error during dialog initialisation: server " +
-            "unavailable or authentication wrong?")
+            detail=("Error during dialog initialisation: server "
+                "unavailable or authentication wrong?"))
     except FinTSClientPINError:
         state.client = None
         raise HTTPException(
@@ -102,8 +102,8 @@ def connect(conInfo: GenericIn):
         state.client = None
         raise HTTPException(
             status_code=400,
-            detail=f"TAN mechanism '{conInfo.connection.tan_mechanism}'" +
-            "not supported by account")
+            detail=(f"TAN mechanism '{conInfo.connection.tan_mechanism}'"
+                "not supported by account"))
 
 
 @app.post("/disconnect")
@@ -148,9 +148,9 @@ def get_accounts(accountsIn: AccountsIn = None):
         acc_num = info_account['account_number']
         acc_type = info_account['type']
         acc_product_name = info_account['product_name']
-        if (iban and any(acc.iban == iban for acc in account_list)) or\
-            (acc_num and
-             any(acc.accountnumber == acc_num for acc in account_list)):
+        if (iban and any(acc.iban == iban for acc in account_list)) or \
+                (acc_num and any(acc.accountnumber == acc_num
+                for acc in account_list)):
             account_list.append(Account(
                 name=f"{acc_type} {acc_product_name}",
                 iban=iban,

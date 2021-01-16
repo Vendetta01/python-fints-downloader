@@ -192,9 +192,9 @@ class ImportTransactionsView(ImportFinTSGenericView):
 
             if dst:
                 dst_account = Account.objects.filter(
-                    (Q(iban=dst.get('iban')) |
-                     Q(number=trans.get('accountnumber'))) &
-                    Q(bic=dst.get('bic'))
+                    (Q(iban=dst.get('iban'))
+                        | Q(number=trans.get('accountnumber')))
+                    & Q(bic=dst.get('bic'))
                 ).first()
                 if not dst_account:
                     dst_account = Account(
@@ -225,9 +225,9 @@ class ImportTransactionsView(ImportFinTSGenericView):
             connection=backend_connection,
             account=backend_account,
             fromDate=dateparser.parse(post_data.get('fromDate'),
-                settings={'DATE_ORDER': 'DMY'}),  # noqa: E128
+                settings={'DATE_ORDER': 'DMY'}),
             toDate=dateparser.parse(post_data.get('toDate'),
-                settings={'DATE_ORDER': 'DMY'})  # noqa: E128
+                settings={'DATE_ORDER': 'DMY'})
         ).dict()
 
 
