@@ -1,6 +1,5 @@
 import logging
 from decimal import Decimal
-from datetime import datetime
 import dateparser
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -9,10 +8,10 @@ from django.db.models import Q
 import requests
 import json
 
-from fints_downloader.forms import ImportAccountsForm, ImportBalanceForm,\
+from fints_downloader.forms import ImportAccountsForm, \
     ImportTransactionsForm, ImportHoldingsForm, TANForm
 from fints_downloader.models import BankLogin, Account, AccountTypes,\
-    Transaction, Holding, Balance, FinTSDownloaderBackend
+    Transaction, Holding, FinTSDownloaderBackend
 from backend.models import GenericIn, Connection, Account as BackendAccount,\
     TransactionsIn
 from fints_downloader.utils import get_value, format_backend_url,\
@@ -159,20 +158,6 @@ class ImportAccountsView(ImportFinTSGenericView):
                 name=response_account.get('name'))
             logger.info("Importing account: %s", account)
             account.save()
-
-
-class ImportBalanceView(ImportFinTSGenericView):
-    template_name = 'importer.html'
-    form_class = ImportBalanceForm
-    fd_backend_endpoint = 'balance'
-
-    def import_data(self, bank_login, account, response):
-        Balance(
-            account=account,
-            amount=Decimal(response.get('amount')),
-            currency=response.get('currency'),
-            valid_datetime=datetime.now()
-        ).save()
 
 
 # FIXME: change bank etc.

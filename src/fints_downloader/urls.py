@@ -1,17 +1,13 @@
 from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
+# from rest_framework.urlpatterns import format_suffix_patterns
 
 from fints_downloader.views import models, index, account, tag, importer, \
-    transaction, category, balance
+    transaction, category
 
 
 urlpatterns = [
     path('banklogins/', models.BankLoginList.as_view()),
     path('banklogins/<str:pk>/', models.BankLoginDetail.as_view()),
-    path('balances/', models.BalanceList.as_view()),
-    # path('balance/<str:pk>/', models.BalanceDetail.as_view()),
-    path('balance/<str:pk>/', balance.BalanceLineChartJSON.as_view(),
-         name='balance'),
     path('transactions/', transaction.TransactionList.as_view(),
          name='transactions'),
     path('transactions/categorize/', transaction.Categorize.as_view(),
@@ -33,11 +29,9 @@ urlpatterns = [
          name='import_accounts'),
     path('import/transactions/', importer.ImportTransactionsView.as_view(),
          name='import_transactions'),
-    path('import/balance/', importer.ImportBalanceView.as_view(),
-         name='import_balance'),
     path('import/holdings/', importer.ImportHoldingsView.as_view(),
          name='import_holdings'),
     path('import/tan/', importer.TANView.as_view(), name='import_tan'),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+# urlpatterns = format_suffix_patterns(urlpatterns)

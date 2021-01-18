@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from fints_downloader.models import BankLogin, Account, Balance, Transaction,\
+from fints_downloader.models import BankLogin, Account, Transaction,\
     Holding, Tag, Category
 
 
@@ -24,12 +24,6 @@ class TagSerializer(serializers.ModelSerializer):
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = '__all__'
-
-
-class BalanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Balance
         fields = '__all__'
 
 

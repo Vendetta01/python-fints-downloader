@@ -25,10 +25,6 @@ class ImportAccountDetailsForm(forms.Form):
         help_text='Choose account as import source')
 
 
-class ImportBalanceForm(ImportAccountDetailsForm):
-    pass
-
-
 class ImportHoldingsForm(ImportAccountDetailsForm):
     pass
 

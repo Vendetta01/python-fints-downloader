@@ -1,9 +1,7 @@
 from rest_framework import generics
-from fints_downloader.models import BankLogin, Account, Balance, Transaction,\
-    Holding
+from fints_downloader.models import BankLogin, Account, Transaction, Holding
 from fints_downloader.serializers import BankLoginSerializer,\
-    AccountSerializer, BalanceSerializer, TransactionSerializer,\
-    HoldingSerializer
+    AccountSerializer, TransactionSerializer, HoldingSerializer
 
 
 class BankLoginList(generics.ListCreateAPIView):
@@ -24,16 +22,6 @@ class AccountList(generics.ListCreateAPIView):
 class AccountDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
-
-
-class BalanceList(generics.ListCreateAPIView):
-    queryset = Balance.objects.all()
-    serializer_class = BalanceSerializer
-
-
-class BalanceDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Balance.objects.all()
-    serializer_class = BalanceSerializer
 
 
 class TransactionList(generics.ListCreateAPIView):

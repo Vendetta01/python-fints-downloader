@@ -21,8 +21,9 @@ run_backend:
 migrate:
 	@echo "Make migrations..."
 	source ./env/bin/activate; \
-	./src/manage.py makemigrations; \
-	@echo "Migrating..."; \
+	./src/manage.py makemigrations
+	@echo "Migrating..."
+	source ./env/bin/activate; \
 	./src/manage.py migrate
 
 clean:
