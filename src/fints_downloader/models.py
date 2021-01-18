@@ -49,9 +49,6 @@ class Category(models.Model):
         cur_date = date.today()
         filter_date = cur_date
 
-        print(f"__DEBUG2: {cur_date}")
-        print(f"__DEBUG3: {type(cur_date)}")
-
         if mode.lower() == 'ltd':
             filter_date = date(1, 1, 1)
         elif mode.lower() == 'ytd':
@@ -79,8 +76,6 @@ class Category(models.Model):
         return self.sum_transactions('mtd')
 
     def count_transactions(self, mode='ltd'):
-        print(f"__DEBUG0: {self._filter_date(mode)}")
-        print(f"__DEBUG0: {type(self._filter_date(mode))}")
         return self.transactions().filter(
             date__gte=self._filter_date(mode)).count()
 
@@ -223,6 +218,12 @@ class BankLogin(BaseModel):
     server = models.CharField(
         max_length=1024,
         help_text='Bank fints server connection string')
+    enabled = models.BooleanField(
+        default=True,
+        help_text='Is this bank login enabled')
+    tan_required = models.BooleanField(
+        default=False,
+        help_text='Last automatic access required a TAN')
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for these login

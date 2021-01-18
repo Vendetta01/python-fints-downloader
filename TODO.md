@@ -11,10 +11,12 @@
 * [ ] Menu: sub menu with symbol collapsed/not collapsed (https://codepen.io/Paulie-D/pen/BoXgbj, https://www.codeply.com/go/ETdG3HL7sB)
 * [ ] Category/categories endpoints: model as form to create/update/delete data sets
 * [ ] Write categorizer that handles automatic assignment of categories to new transactions
-* [ ] Admin command to trigger import
+* [X] Admin command to trigger import
 * [X] Implement template for categories
 * [ ] Update model.plantuml (maybe automatically from code???)
 * [X] Make target for model.plantuml
 * [ ] Remove Balance
 * [ ] Create Dockerfile
 * [ ] Update accounts template (enable/disable foreign accounts)
+* [ ] Refactor update_data admin command to enable multiple tan requests
+* [X] include start of fd backend server into manage.py
