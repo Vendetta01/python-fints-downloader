@@ -296,7 +296,6 @@ class TANView(FormView):
             fd_backend_payload = json.dumps(
                 json.loads(fd_backend_payload).update({'tan': tan}),
                 cls=DateTimeEncoder)
-            print(f"__DEBUG2: {fd_backend_payload}")
 
             account = None
             bank_login = None

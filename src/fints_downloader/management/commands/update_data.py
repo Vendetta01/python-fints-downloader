@@ -106,9 +106,15 @@ class Command(BaseCommand):
                 f"Account '{account}' is disabled, ignoring..."))
             return
         elif account.bank_login.tan_required:
-            self.stdout.write(self.style.WARNING(
-                f"Account '{account}' requires user interaction, ignoring..."))
-            return
+            if interactive:
+                account.bank_login.refresh_from_db()
+                account.bank_login.tan_required = False
+                account.bank_login.save()
+            else:
+                self.stdout.write(self.style.WARNING((
+                    f"Account '{account}' requires user interaction, "
+                    "ignoring..."))
+                return
 
         # Update account
         if no_dates:
@@ -148,8 +154,6 @@ class Command(BaseCommand):
             ).dict(),
             cls=DateTimeEncoder)
 
-        print(f"__DEBUG5: {fd_backend_payload}")
-
         r = requests.post(
             fd_backend_url,
             data=fd_backend_payload)
@@ -161,18 +165,30 @@ class Command(BaseCommand):
                 account.bank_login.tan_required = True
                 account.bank_login.save()
                 raise CommandError(f"TAN required for account '{account}'")
+            else:
+                account.bank_login.refresh_from_db()
+                account.bank_login.tan_required = False
+                account.bank_login.save()
+                tan = input(r.json())
 
-            # Here we must print TAN challenge and get user input
-            # TODO
-            raise Exception("Not implemented yet")
+                fd_backend_payload = json.dumps(
+                    json.loads(fd_backend_payload).update({'tan': tan}),
+                    cls=DateTimeEncoder)
 
-        elif r.status_code != 200:
+                r = requests.post(
+                    fd_backend_url,
+                    data=fd_backend_payload)
+
+                if r.status_code == 401:
+                    account.bank_login.refresh_from_db()
+                    account.bank_login.tan_required = True
+                    account.bank_login.save()
+                    raise CommandError(f"TAN required for account '{account}'")
+
+        if r.status_code != 200:
             raise CommandError(f"Error during backend call: {r.status_code}")
 
         # If all went well import data
-        print(f"__DEBUG6: {type(r)}")
-        print(f"__DEBUG7: {r}")
-        print(f"__DEBUG8: {r.json()}")
         importer.ImportTransactionsView().import_data(
             account.bank_login,
             account,
