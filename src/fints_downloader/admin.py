@@ -1,5 +1,5 @@
 from django.contrib import admin
-from fints_downloader.models import BankLogin, Account, Balance,\
+from fints_downloader.models import BankLogin, Account, \
     Transaction, Holding, FinTSDownloaderBackend, Category, Tag
 
 
@@ -42,14 +42,6 @@ class AccountAdmin(BaseModelAdmin):
         'name', 'type', 'number', 'iban', 'bic', 'bank_login')
     list_filter = ('type', 'bank_login')
     editableonly_on_creation_fields = Account.bk_fields
-
-
-@admin.register(Balance)
-class BalanceAdmin(BaseModelAdmin):
-    list_display = BaseModelAdmin.list_display + \
-        ('account', 'amount', 'currency', 'valid_datetime')
-    list_filter = ('valid_datetime',)
-    editableonly_on_creation_fields = Balance.bk_fields
 
 
 @admin.register(Transaction)

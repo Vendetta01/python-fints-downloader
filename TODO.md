@@ -15,8 +15,9 @@
 * [X] Implement template for categories
 * [ ] Update model.plantuml (maybe automatically from code???)
 * [X] Make target for model.plantuml
-* [ ] Remove Balance
+* [X] Remove Balance
 * [ ] Create Dockerfile
 * [ ] Update accounts template (enable/disable foreign accounts)
 * [ ] Refactor update_data admin command to enable multiple tan requests
-* [X] include start of fd backend server into manage.py
+* [X] Include start of fd backend server into manage.py
+* [ ] Refactor code to properly support multiple currencies

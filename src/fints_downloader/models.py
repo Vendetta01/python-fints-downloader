@@ -274,14 +274,7 @@ class Account(BaseModel):
         return reverse('account', args=[str(self.id)])
 
     def get_current_balance(self):
-        # TODO: calculate balance from transactions and init value
-        bal = Balance.objects.filter(account_id=self.id).order_by(
-            '-valid_datetime').first()
-        if not bal:
-            return '-'
-
-        # return f"{bal.amount} {bal.currency}"
-        return bal.amount
+        return self.sum_transactions()
 
     def sum_transactions(self, fromDate=None, toDate=None, add_filter=None):
         obj_filter = Q(src=self)
@@ -317,29 +310,6 @@ class Account(BaseModel):
         return self.sum_transactions(
             fromDate=last_month.replace(day=1),
             toDate=last_month)
-
-
-class Balance(BaseModel):
-    """Model representing an account balance."""
-    bk_fields = ('account', 'valid_datetime',)
-    account = models.ForeignKey(
-        Account,
-        on_delete=models.CASCADE,
-        help_text='Account which the balance belongs to')
-    amount = models.DecimalField(
-        max_digits=32,
-        decimal_places=2,
-        help_text='Account balance')
-    currency = models.CharField(
-        max_length=3,
-        choices=CurrencyTypes.choices,
-        help_text='Currency type')
-    valid_datetime = models.DateTimeField(
-        help_text='Timestamp at which this balance was valid')
-
-    def get_absolute_url(self):
-        """Returns the url to access a detail record for this balance."""
-        return reverse('balance-detail', args=[str(self.id)])
 
 
 class Transaction(BaseModel):
