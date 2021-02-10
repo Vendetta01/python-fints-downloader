@@ -7,9 +7,9 @@ from fints_downloader.forms import CategorizeForm
 
 
 class TransactionList(ListView):
-    template_name = 'transactions.html'
+    template_name = "transactions.html"
     model = Transaction
-    context_object_name = 'transactions'
+    context_object_name = "transactions"
     # paginate_by = 10
 
     # def get_queryset(self):
@@ -17,7 +17,7 @@ class TransactionList(ListView):
 
 
 class TransactionDetail(DetailView):
-    template_name = 'transaction.html'
+    template_name = "transaction.html"
     model = Transaction
 
     # def get_context_data(self, *args, **kwargs):
@@ -29,9 +29,9 @@ class TransactionDetail(DetailView):
 
 
 class Categorize(FormView):
-    template_name = 'categorize.html'
+    template_name = "categorize.html"
     form_class = CategorizeForm
-    success_url = '/fints_downloader/transactions/categorize/'
+    success_url = "/fints_downloader/transactions/categorize/"
     # context_object_name = 'accounts'
     # paginate_by = 10
 
@@ -41,7 +41,7 @@ class Categorize(FormView):
     def post(self, request, *args, **kwargs):
         form = CategorizeForm(request.POST)
         if form.is_valid():
-            transactions = form.cleaned_data['transactions']
+            transactions = form.cleaned_data["transactions"]
 
             # check if category exists and create otherwise
             category = None
@@ -59,9 +59,9 @@ class Categorize(FormView):
             return HttpResponseRedirect(self.success_url)
 
         context = {}
-        if hasattr(context, 'request'):
+        if hasattr(context, "request"):
             context = request.context
-        context['form'] = form
+        context["form"] = form
         return render(request, self.template_name, context)
 
     def get_context_data(self, *args, **kwargs):
@@ -70,6 +70,6 @@ class Categorize(FormView):
         # transactions are handled through form
         # context['transactions'] = Transaction.objects.filter(
         #    category__isnull=True).order_by('date')
-        context['categories'] = Category.objects.all()
+        context["categories"] = Category.objects.all()
 
         return context

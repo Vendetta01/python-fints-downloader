@@ -20,9 +20,9 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('fints_downloader/', include('fints_downloader.urls')),
-    path('', RedirectView.as_view(url='fints_downloader/', permanent=True)),
+    path("admin/", admin.site.urls),
+    path("fints_downloader/", include("fints_downloader.urls")),
+    path("", RedirectView.as_view(url="fints_downloader/", permanent=True)),
 ]
 
 

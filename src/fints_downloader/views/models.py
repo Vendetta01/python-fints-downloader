@@ -1,7 +1,11 @@
 from rest_framework import generics
 from fints_downloader.models import BankLogin, Account, Transaction, Holding
-from fints_downloader.serializers import BankLoginSerializer,\
-    AccountSerializer, TransactionSerializer, HoldingSerializer
+from fints_downloader.serializers import (
+    BankLoginSerializer,
+    AccountSerializer,
+    TransactionSerializer,
+    HoldingSerializer,
+)
 
 
 class BankLoginList(generics.ListCreateAPIView):

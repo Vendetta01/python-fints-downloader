@@ -7,8 +7,8 @@ from fints_downloader.widgets import BootstrapDateTimePickerInput
 
 class ImportAccountsForm(forms.Form):
     bank_login = forms.ModelChoiceField(
-        queryset=BankLogin.objects.all(),
-        help_text='Bank login')
+        queryset=BankLogin.objects.all(), help_text="Bank login"
+    )
     # login_credentials_field = forms.ChoiceField(
     #   choices=[], help_text='TODO: help_text')
 
@@ -22,7 +22,8 @@ class ImportAccountsForm(forms.Form):
 class ImportAccountDetailsForm(forms.Form):
     account = forms.ModelChoiceField(
         queryset=Account.objects.filter(bank_login__isnull=False),
-        help_text='Choose account as import source')
+        help_text="Choose account as import source",
+    )
 
 
 class ImportHoldingsForm(ImportAccountDetailsForm):
@@ -31,28 +32,29 @@ class ImportHoldingsForm(ImportAccountDetailsForm):
 
 class ImportTransactionsForm(ImportAccountDetailsForm):
     fromDate = forms.DateField(
-        input_formats=['%d.%m.%Y'],
+        input_formats=["%d.%m.%Y"],
         widget=BootstrapDateTimePickerInput(),
-        help_text='Beginndatum Transaktionszeitraum')
+        help_text="Beginndatum Transaktionszeitraum",
+    )
     toDate = forms.DateField(
-        input_formats=['%d.%m.%Y'],
+        input_formats=["%d.%m.%Y"],
         widget=BootstrapDateTimePickerInput(),
-        help_text='Enddatum Transaktionszeitraum')
+        help_text="Enddatum Transaktionszeitraum",
+    )
 
 
 class TANForm(forms.Form):
-    tan = forms.CharField(max_length=16, help_text='TAN')
+    tan = forms.CharField(max_length=16, help_text="TAN")
 
 
 class CheckboxSelectMultipleAsTableIterator(models.ModelChoiceIterator):
     def choice(self, obj):
-        return (self.field.prepare_value(obj),
-                self.field.label_from_instance(obj), obj)
+        return (self.field.prepare_value(obj), self.field.label_from_instance(obj), obj)
 
 
 class CustomModelChoiceField(models.ModelMultipleChoiceField):
     def _get_choices(self):
-        if hasattr(self, '_choices'):
+        if hasattr(self, "_choices"):
             return self._choices
         return CheckboxSelectMultipleAsTableIterator(self)
 
@@ -62,14 +64,14 @@ class CustomModelChoiceField(models.ModelMultipleChoiceField):
 class CategorizeForm(forms.Form):
     # categories are handled through FormView
     transactions = CustomModelChoiceField(
-        queryset=Transaction.objects.filter(
-            category__isnull=True).order_by('date'),
-        widget=forms.CheckboxSelectMultiple)
+        queryset=Transaction.objects.filter(category__isnull=True).order_by("date"),
+        widget=forms.CheckboxSelectMultiple,
+    )
 
     def __init__(self, *args, **kwargs):
         self.category_text = None
         if args:
-            self.category_text = args[0].get('category')
+            self.category_text = args[0].get("category")
         super(CategorizeForm, self).__init__(*args, **kwargs)
 
     def is_valid(self):
@@ -81,7 +83,7 @@ class CategorizeForm(forms.Form):
             return valid
 
         if not self.category_text:
-            self.add_error('category', 'No category selected')
+            self.add_error("category", "No category selected")
             return False
 
         return True

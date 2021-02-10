@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q, Sum
+
 # Used to generate URLs by reversing the URL patterns
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -11,49 +12,45 @@ from datetime import datetime, timedelta, date
 # Needs authorization to work...
 class FinTSDownloaderBackend(models.Model):
     """Model representing the FinTS downloader backend"""
-    name = models.CharField(
-        max_length=1024,
-        unique=True,
-        help_text='Name of backend')
+
+    name = models.CharField(max_length=1024, unique=True, help_text="Name of backend")
     server = models.CharField(
-        max_length=1024,
-        help_text='Server address of FinTS downloader backend')
+        max_length=1024, help_text="Server address of FinTS downloader backend"
+    )
     port = models.PositiveIntegerField(
-        default=80,
-        help_text='Server port of FinTS downloader backend')
+        default=80, help_text="Server port of FinTS downloader backend"
+    )
     base_url = models.CharField(
-        max_length=1024,
-        blank=True,
-        help_text='Base url of endpoint')
+        max_length=1024, blank=True, help_text="Base url of endpoint"
+    )
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this
         fints downloader backend."""
-        return reverse('fints-downloader-backend-detail', args=[str(self.id)])
+        return reverse("fints-downloader-backend-detail", args=[str(self.id)])
 
 
 class Category(models.Model):
     """Model representing a category."""
-    name = models.CharField(
-        max_length=1024,
-        help_text='Category name')
+
+    name = models.CharField(max_length=1024, help_text="Category name")
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         """Returns the url to access a detail record."""
-        return reverse('category', args=[str(self.id)])
+        return reverse("category", args=[str(self.id)])
 
-    def _filter_date(self, mode='ltd)'):
+    def _filter_date(self, mode="ltd)"):
         cur_date = date.today()
         filter_date = cur_date
 
-        if mode.lower() == 'ltd':
+        if mode.lower() == "ltd":
             filter_date = date(1, 1, 1)
-        elif mode.lower() == 'ytd':
+        elif mode.lower() == "ytd":
             filter_date = date(cur_date.year, 1, 1)
-        elif mode.lower() == 'mtd':
+        elif mode.lower() == "mtd":
             filter_date = date(cur_date.year, cur_date.month, 1)
 
         return filter_date
@@ -61,39 +58,40 @@ class Category(models.Model):
     def transactions(self):
         return Transaction.objects.filter(category__id=self.id)
 
-    def sum_transactions(self, mode='ltd'):
-        return self.transactions().filter(
-            date__gte=self._filter_date(mode)).aggregate(
-            sum=models.Sum('amount'))['sum'] or 0.
+    def sum_transactions(self, mode="ltd"):
+        return (
+            self.transactions()
+            .filter(date__gte=self._filter_date(mode))
+            .aggregate(sum=models.Sum("amount"))["sum"]
+            or 0.0
+        )
 
     def sum_transactions_ltd(self):
-        return self.sum_transactions('ltd')
+        return self.sum_transactions("ltd")
 
     def sum_transactions_ytd(self):
-        return self.sum_transactions('ytd')
+        return self.sum_transactions("ytd")
 
     def sum_transactions_mtd(self):
-        return self.sum_transactions('mtd')
+        return self.sum_transactions("mtd")
 
-    def count_transactions(self, mode='ltd'):
-        return self.transactions().filter(
-            date__gte=self._filter_date(mode)).count()
+    def count_transactions(self, mode="ltd"):
+        return self.transactions().filter(date__gte=self._filter_date(mode)).count()
 
     def count_transactions_ltd(self):
-        return self.count_transactions('ltd')
+        return self.count_transactions("ltd")
 
     def count_transactions_ytd(self):
-        return self.count_transactions('ytd')
+        return self.count_transactions("ytd")
 
     def count_transactions_mtd(self):
-        return self.count_transactions('mtd')
+        return self.count_transactions("mtd")
 
 
 class Tag(models.Model):
     """Model representing a tag."""
-    name = models.CharField(
-        max_length=1024,
-        help_text='Tag name')
+
+    name = models.CharField(max_length=1024, help_text="Tag name")
     # pattern = models.CharField(
     #    max_length=1024,
     #    help_text='Search pattern for this tag')
@@ -107,14 +105,15 @@ class Tag(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a detail record."""
-        return reverse('tag', args=[str(self.id)])
+        return reverse("tag", args=[str(self.id)])
 
     def get_transactions(self):
         return Transaction.objects.filter(tags__id=self.id)
 
     def get_sum_transactions(self):
-        return self.get_transactions().aggregate(
-            sum=models.Sum('amount'))['sum'] or None
+        return (
+            self.get_transactions().aggregate(sum=models.Sum("amount"))["sum"] or None
+        )
 
     def get_count_transactions(self):
         return self.get_transactions().count()
@@ -122,42 +121,44 @@ class Tag(models.Model):
 
 class CurrencyTypes(models.TextChoices):
     """Model representing different currencies."""
-    EURO = 'EUR', _('Euro')
+
+    EURO = "EUR", _("Euro")
 
 
 class AccountTypes(models.TextChoices):
     """Model representing different account types."""
-    CHECKING = 'ch', _('checking')
-    CREDIT_CARD = 'cc', _('credit card')
-    DEPOT = 'dp', _('depot')
-    FOREIGN = 'fg', _('foreign')
+
+    CHECKING = "ch", _("checking")
+    CREDIT_CARD = "cc", _("credit card")
+    DEPOT = "dp", _("depot")
+    FOREIGN = "fg", _("foreign")
 
 
 class TagTypes(models.TextChoices):
     """Model representing different tag types."""
-    CATEGORY = 'ct', _('Category')
-    OTHER = 'ot', _('Other')
+
+    CATEGORY = "ct", _("Category")
+    OTHER = "ot", _("Other")
 
 
 class BaseModel(models.Model):
     """Class containing all common fields"""
+
     ID_MAX_LENGTH = 64
 
     bk_fields = ()
 
     id = models.CharField(
         max_length=ID_MAX_LENGTH,
-        help_text='ID containing the hashed business key',
-        primary_key=True)
-    bk_id = models.CharField(
-        max_length=1024, help_text='Unhashed business key'
+        help_text="ID containing the hashed business key",
+        primary_key=True,
     )
-    last_update = models.DateTimeField(
-        help_text='Last update timestamp', auto_now=True)
+    bk_id = models.CharField(max_length=1024, help_text="Unhashed business key")
+    last_update = models.DateTimeField(help_text="Last update timestamp", auto_now=True)
 
     class Meta:
         abstract = True
-        ordering = ['bk_id']
+        ordering = ["bk_id"]
 
     def __str__(self):
         return self.get_business_key()
@@ -172,8 +173,7 @@ class BaseModel(models.Model):
         super(BaseModel, self).save(*args, **kwargs)
 
     def get_hash_id(self):
-        return sha256(str(self.get_business_key()
-                          ).encode('utf-8')).hexdigest()
+        return sha256(str(self.get_business_key()).encode("utf-8")).hexdigest()
 
     def get_business_key(self):
         """Create string representation from business key field list."""
@@ -191,87 +191,73 @@ class BaseModel(models.Model):
 
 class BankLogin(BaseModel):
     """Model representing login credentials for a specific bank"""
-    bk_fields = ('code', 'user_id',)
+
+    bk_fields = (
+        "code",
+        "user_id",
+    )
     name = models.CharField(
         max_length=1024,
         null=True,
         blank=True,
-        help_text='Decribing name of credentials')
-    user_id = models.CharField(
-        max_length=1024,
-        help_text='Login/user name')
+        help_text="Decribing name of credentials",
+    )
+    user_id = models.CharField(max_length=1024, help_text="Login/user name")
     password = models.CharField(
-        max_length=1024,
-        help_text='Password or pin for this account')
+        max_length=1024, help_text="Password or pin for this account"
+    )
     tan_mechanism = models.CharField(
-        max_length=3,
-        null=True,
-        blank=True,
-        help_text='Default TAN mechanism')
-    bic = models.CharField(
-        max_length=11,
-        help_text='Bank identifier code')
+        max_length=3, null=True, blank=True, help_text="Default TAN mechanism"
+    )
+    bic = models.CharField(max_length=11, help_text="Bank identifier code")
     code = models.DecimalField(
-        max_digits=8,
-        decimal_places=0,
-        help_text='German bank code')
+        max_digits=8, decimal_places=0, help_text="German bank code"
+    )
     server = models.CharField(
-        max_length=1024,
-        help_text='Bank fints server connection string')
-    enabled = models.BooleanField(
-        default=True,
-        help_text='Is this bank login enabled')
+        max_length=1024, help_text="Bank fints server connection string"
+    )
+    enabled = models.BooleanField(default=True, help_text="Is this bank login enabled")
     tan_required = models.BooleanField(
-        default=False,
-        help_text='Last automatic access required a TAN')
+        default=False, help_text="Last automatic access required a TAN"
+    )
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for these login
         credetinals."""
-        return reverse('bank-login-detail', args=[str(self.id)])
+        return reverse("bank-login-detail", args=[str(self.id)])
 
 
 class Account(BaseModel):
     """Model representing an account"""
-    bk_fields = ('number', 'bic')
+
+    bk_fields = ("number", "bic")
     bank_login = models.ForeignKey(
         BankLogin,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
-        help_text='Login credentials used for this account')
-    iban = models.CharField(
-        max_length=34,
-        null=True,
-        blank=True,
-        help_text='IBAN')
+        help_text="Login credentials used for this account",
+    )
+    iban = models.CharField(max_length=34, null=True, blank=True, help_text="IBAN")
     number = models.DecimalField(
-        max_digits=30,
-        decimal_places=0,
-        help_text='Account number')
+        max_digits=30, decimal_places=0, help_text="Account number"
+    )
     bic = models.CharField(
-        max_length=11,
-        null=True,
-        blank=True,
-        help_text='Bank identifier code')
+        max_length=11, null=True, blank=True, help_text="Bank identifier code"
+    )
     type = models.CharField(
-        max_length=2,
-        choices=AccountTypes.choices,
-        help_text='Type of account')
+        max_length=2, choices=AccountTypes.choices, help_text="Type of account"
+    )
     name = models.CharField(
-        max_length=256,
-        help_text='Account name',
-        null=True,
-        blank=True)
+        max_length=256, help_text="Account name", null=True, blank=True
+    )
     init_balance = models.DecimalField(
-        max_digits=32,
-        decimal_places=2,
-        default=0,
-        help_text='Initial account balance')
+        max_digits=32, decimal_places=2, default=0, help_text="Initial account balance"
+    )
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this account."""
-        return reverse('account', args=[str(self.id)])
+        return reverse("account", args=[str(self.id)])
 
     def get_current_balance(self):
         return self.sum_transactions()
@@ -284,86 +270,84 @@ class Account(BaseModel):
             obj_filter = obj_filter & Q(date__lte=toDate)
         if add_filter:
             obj_filter = obj_filter & add_filter
-        sum = Transaction.objects.filter(
-            obj_filter
-        ).aggregate(sum=Sum('amount'))['sum'] or 0
+        sum = (
+            Transaction.objects.filter(obj_filter).aggregate(sum=Sum("amount"))["sum"]
+            or 0
+        )
         return self.init_balance + sum
 
     def get_spending_cur_month(self):
         today = datetime.today()
         return self.sum_transactions(
-            fromDate=today.replace(day=1),
-            toDate=today,
-            add_filter=Q(amount__lt=0))
+            fromDate=today.replace(day=1), toDate=today, add_filter=Q(amount__lt=0)
+        )
 
     def get_spending_last_month(self):
-        last_month = datetime.today().replace(day=1) - \
-            timedelta(days=1)
+        last_month = datetime.today().replace(day=1) - timedelta(days=1)
         return self.sum_transactions(
             fromDate=last_month.replace(day=1),
             toDate=last_month,
-            add_filter=Q(amount__lt=0))
+            add_filter=Q(amount__lt=0),
+        )
 
     def get_change_last_month(self):
-        last_month = datetime.today().replace(day=1) - \
-            timedelta(days=1)
+        last_month = datetime.today().replace(day=1) - timedelta(days=1)
         return self.sum_transactions(
-            fromDate=last_month.replace(day=1),
-            toDate=last_month)
+            fromDate=last_month.replace(day=1), toDate=last_month
+        )
 
 
 class Transaction(BaseModel):
     """Model representing a transaction."""
-    bk_fields = ('src', 'dst', 'amount', 'date', 'purpose',)
+
+    bk_fields = (
+        "src",
+        "dst",
+        "amount",
+        "date",
+        "purpose",
+    )
     src = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
-        related_name='src',
-        help_text='Source account')
+        related_name="src",
+        help_text="Source account",
+    )
     dst = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
-        related_name='dst',
+        related_name="dst",
         null=True,
-        help_text='Destination account')
+        help_text="Destination account",
+    )
     amount = models.DecimalField(
-        max_digits=32,
-        decimal_places=2,
-        help_text='Transaction amount')
+        max_digits=32, decimal_places=2, help_text="Transaction amount"
+    )
     currency = models.CharField(
-        max_length=3,
-        choices=CurrencyTypes.choices,
-        help_text='Currency type')
-    date = models.DateField(
-        help_text='Date of transaction')
+        max_length=3, choices=CurrencyTypes.choices, help_text="Currency type"
+    )
+    date = models.DateField(help_text="Date of transaction")
     posting_text = models.CharField(
-        max_length=128,
-        null=True,
-        blank=True,
-        help_text='Posting text of transaction')
+        max_length=128, null=True, blank=True, help_text="Posting text of transaction"
+    )
     purpose = models.CharField(
-        max_length=1024,
-        null=True,
-        blank=True,
-        help_text='Purpose of transaction')
+        max_length=1024, null=True, blank=True, help_text="Purpose of transaction"
+    )
     transaction_code = models.DecimalField(
         max_digits=30,
         decimal_places=0,
         null=True,
         blank=True,
-        help_text='Transaction code')
+        help_text="Transaction code",
+    )
     category = models.ForeignKey(
-        Category,
-        on_delete=models.SET_NULL,
-        null=True,
-        help_text='Category')
-    tags = models.ManyToManyField(
-        Tag,
-        help_text='Tags')
+        Category, on_delete=models.SET_NULL, null=True, help_text="Category"
+    )
+    tags = models.ManyToManyField(Tag, help_text="Tags")
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this balance."""
-        return reverse('transaction', args=[str(self.id)])
+        return reverse("transaction", args=[str(self.id)])
 
     def is_categorized(self):
         return False
@@ -371,45 +355,37 @@ class Transaction(BaseModel):
 
 class Holding(BaseModel):
     """Model rerpesenting a holding."""
-    bk_fields = ('account', 'isin')
+
+    bk_fields = ("account", "isin")
     account = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
-        help_text='Account which the holding belongs to')
-    isin = models.TextField(
-        max_length=12,
-        help_text='ISIN')
+        help_text="Account which the holding belongs to",
+    )
+    isin = models.TextField(max_length=12, help_text="ISIN")
     wkn = models.TextField(
-        max_length=6,
-        null=True,
-        blank=True,
-        help_text='German Wertpapierkennnummer')
-    name = models.TextField(
-        max_length=256,
-        help_text='Name')
+        max_length=6, null=True, blank=True, help_text="German Wertpapierkennnummer"
+    )
+    name = models.TextField(max_length=256, help_text="Name")
     market_value = models.DecimalField(
-        max_digits=32,
-        decimal_places=2,
-        help_text='Market value')
+        max_digits=32, decimal_places=2, help_text="Market value"
+    )
     currency = models.CharField(
-        max_length=3,
-        choices=CurrencyTypes.choices,
-        help_text='Currency type')
-    valuation_date = models.DateField(
-        help_text='Valuation date')
-    pieces = models.PositiveIntegerField(
-        help_text='Number of pieces')
+        max_length=3, choices=CurrencyTypes.choices, help_text="Currency type"
+    )
+    valuation_date = models.DateField(help_text="Valuation date")
+    pieces = models.PositiveIntegerField(help_text="Number of pieces")
     total_value = models.DecimalField(
-        max_digits=32,
-        decimal_places=2,
-        help_text='Total value')
+        max_digits=32, decimal_places=2, help_text="Total value"
+    )
     acquisitionprice = models.DecimalField(
         max_digits=32,
         decimal_places=2,
         null=True,
         blank=True,
-        help_text='Acquisition price')
+        help_text="Acquisition price",
+    )
 
     def get_absolute_url(self):
         """Returns the url to access a detail record for this holding."""
-        return reverse('holding-detail', args=[str(self.id)])
+        return reverse("holding-detail", args=[str(self.id)])

@@ -23,5 +23,5 @@
 * [ ] Refactor code to properly support multiple currencies
 * [ ] Add authentication
 * [ ] Add proper config file
-* [ ] Format all code with black
+* [X] Format all code with black
 * [ ] Refactor api and make it consistent
