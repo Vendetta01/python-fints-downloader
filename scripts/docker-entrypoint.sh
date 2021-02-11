@@ -6,67 +6,6 @@ set -e
 # Variables
 source /usr/bin/environment.sh
 
-# functions
-function generate_ssl {
-  mkdir -p $DEFAULT_SSL_BASE
-  confout="${DEFAULT_SSL_BASE}/conf"
-  keyout="${DEFAULT_SSL_KEY}"
-  certout="${DEFAULT_SSL_CRT}"
-  cakey="${DEFAULT_SSL_BASE}/ca.key"
-  cacert="${DEFAULT_SSL_BASE}/ca.crt"
-  serialfile="${DEFAULT_SSL_BASE}/serial"
-
-  logit "INFO" "Generating CA key"
-  openssl genrsa -out $cakey 2048
-  if [ $? -ne 0 ]; then exit 1 ; fi
-
-  logit "INFO" "Generating CA certificate"
-  openssl req \
-          -x509 \
-          -new \
-          -nodes \
-          -subj "/CN=${SERVER_HOSTNAME}" \
-          -key $cakey \
-          -sha256 \
-          -days 7300 \
-          -out $cacert
-  if [ $? -ne 0 ]; then exit 1 ; fi
-
-  logit "INFO" "Generating openssl configuration"
-
-  cat <<EoCertConf>$confout
-subjectAltName = DNS:${SERVER_HOSTNAME},IP:127.0.0.1
-extendedKeyUsage = serverAuth
-EoCertConf
-
-  logit "INFO" "Generating server key..."
-  openssl genrsa -out $keyout 2048
-  if [ $? -ne 0 ]; then exit 1 ; fi
-
-  logit "INFO" "Generating server signing request..."
-  openssl req \
-               -subj "/CN=${SERVER_HOSTNAME}" \
-               -sha256 \
-               -new \
-               -key $keyout \
-               -out /tmp/server.csr
-  if [ $? -ne 0 ]; then exit 1 ; fi
-
-  logit "INFO" "Generating server cert..."
-  openssl x509 \
-                -req \
-                -days 7300 \
-                -sha256 \
-                -in /tmp/server.csr \
-                -CA $cacert \
-                -CAkey $cakey \
-                -CAcreateserial \
-                -CAserial $serialfile \
-                -out $certout \
-                -extfile $confout
-  if [ $? -ne 0 ]; then exit 1 ; fi
-}
-
 
 # Source: https://github.com/sameersbn/docker-gitlab/
 map_uidgid() {
@@ -106,7 +45,7 @@ set_permissions() {
       } >&2
     done
     # Set permissions for application directory
-    chown -Rh paperless:paperless /usr/src/paperless
+    chown -Rh fints:fints /usr/src/fints_downloader
 }
 
 migrations() {
@@ -124,17 +63,18 @@ migrations() {
 
 initialize() {
     map_uidgid
-    #set_permissions
-    #generate_ssl
+    set_permissions
 
     # first set up confd itself from env
     logit "INFO" "Setting up confd..."
     /usr/bin/confd -onetime -backend env -confdir /tmp/etc/confd -sync-only
 
     # Waiting for etcd
-    logit "INFO" "Waiting for etcd..."
-    #/usr/bin/wait-for-it.sh ${CONF__WAIT_FOR_ETCD__URL} -s \
-	#    -t ${CONF__WAIT_FOR_ETCD__TIME}
+    if [[ ${CONF__WAIT_FOR_ETCD__URL+x} ]]; then
+        logit "INFO" "Waiting for etcd..."
+        /usr/bin/wait-for-it.sh ${CONF__WAIT_FOR_ETCD__URL} -s \
+	        -t ${CONF__WAIT_FOR_ETCD__TIME}
+    fi
 
     # now set up all config files initially
     logit "INFO" "Setting up config files"
