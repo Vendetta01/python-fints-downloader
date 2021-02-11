@@ -25,4 +25,4 @@
 * [ ] Add proper config file
 * [X] Format all code with black
 * [ ] Refactor api and make it consistent
-* [ ] Change settings to use an external config file
+* [X] Get settings from external config file

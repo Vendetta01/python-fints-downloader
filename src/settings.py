@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+DEFAULT_CONFIG_FILE = "/etc/fints_downloader.conf"
+
+if os.path.exists(DEFAULT_CONFIG_FILE):
+    load_dotenv(DEFAULT_CONFIG_FILE)
+
+
+def __get_boolean(key, default="False"):
+    return bool(os.getenv(key, default).lower() in ("yes", "y", "1", "t", "true"))
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
@@ -20,12 +32,18 @@ BASE_DIR = Path(__file__).resolve().parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "<SECRET_KEY>"
+SECRET_KEY = os.getenv(
+    "FD_SECRET_KEY", "q0k3i60mcf%uq72v32ir%7ym(85mjjc-&jz8rxa(i)xba#m9n4"
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = __get_boolean("FD_DEBUG", "True")
 
-ALLOWED_HOSTS = ["*"]  # should be changed
+ALLOWED_HOSTS = ["*"]
+_allowed_hosts = os.getenv("FD_ALLOWED_HOSTS")
+if _allowed_hosts:
+    ALLOWED_HOSTS = _allowed_hosts.slit(",")
 
 STATIC_ROOT = "static"
 
@@ -73,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "wsgi.application"
+WSGI_APPLICATION = "fd.wsgi.application"
 
 
 # Database
@@ -82,9 +100,24 @@ WSGI_APPLICATION = "wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": os.path.join(
+            os.getenv("FD_DBDIR", os.path.join(BASE_DIR, "..", "data")), "db.sqlite3"
+        ),
     }
 }
+
+if os.getenv("FD_DBUSER"):
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backend.postgresql_psycopg2",
+        "NAME": os.getenv("FD_DBNAME", "FD"),
+        "USER": os.getenv("FD_DBUSER"),
+    }
+    if os.getenv("FD_DBPASS"):
+        DATABASES["default"]["PASSWORD"] = os.getenv("FD_DBPASS")
+    if os.getenv("FD_DBHOST"):
+        DATABASES["default"]["HOST"] = os.getenv("FD_DBHOST")
+    if os.getenv("FD_DBPORT"):
+        DATABASES["default"]["PORT"] = os.getenv("FD_DBPORT")
 
 
 # Password validation
@@ -111,8 +144,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-# TIME_ZONE = 'UTC'
-TIME_ZONE = "Europe/Berlin"
+TIME_ZONE = os.getenv("FD_TZ", "UTC")
 
 USE_I18N = True
 
