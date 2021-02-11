@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+DEFAULT_CONFIG_FILE = "/etc/fints_downloader.conf"
+
+if os.path.exists(DEFAULT_CONFIG_FILE):
+    load_dotenv(DEFAULT_CONFIG_FILE)
+
+
+def __get_boolean(key, default="False"):
+    return bool(os.getenv(key, default).lower() in ("yes", "y", "1", "t", "true"))
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
@@ -20,70 +32,91 @@ BASE_DIR = Path(__file__).resolve().parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'q0k3i60mcf%uq72v32ir%7ym(85mjjc-&jz8rxa(i)xba#m9n4'
+SECRET_KEY = os.getenv(
+    "FD_SECRET_KEY", "q0k3i60mcf%uq72v32ir%7ym(85mjjc-&jz8rxa(i)xba#m9n4"
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = __get_boolean("FD_DEBUG", "True")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+_allowed_hosts = os.getenv("FD_ALLOWED_HOSTS")
+if _allowed_hosts:
+    ALLOWED_HOSTS = _allowed_hosts.slit(",")
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.humanize',
-    'fints_downloader',
-    'chartjs',
-    'django_extensions',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.humanize",
+    "fints_downloader",
+    "chartjs",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = "urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'fints_downloader.context_processors.get_default_context'
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "fints_downloader.context_processors.get_default_context",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = "fd.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(
+            os.getenv("FD_DBDIR", os.path.join(BASE_DIR, "..", "data")), "db.sqlite3"
+        ),
     }
 }
+
+if os.getenv("FD_DBUSER"):
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backend.postgresql_psycopg2",
+        "NAME": os.getenv("FD_DBNAME", "FD"),
+        "USER": os.getenv("FD_DBUSER"),
+    }
+    if os.getenv("FD_DBPASS"):
+        DATABASES["default"]["PASSWORD"] = os.getenv("FD_DBPASS")
+    if os.getenv("FD_DBHOST"):
+        DATABASES["default"]["HOST"] = os.getenv("FD_DBHOST")
+    if os.getenv("FD_DBPORT"):
+        DATABASES["default"]["PORT"] = os.getenv("FD_DBPORT")
 
 
 # Password validation
@@ -91,16 +124,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',  # noqa: E501
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa: E501
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',  # noqa: E501
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa: E501
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # noqa: E501
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa: E501
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # noqa: E501
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa: E501
     },
 ]
 
@@ -108,10 +141,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-# TIME_ZONE = 'UTC'
-TIME_ZONE = 'Europe/Berlin'
+TIME_ZONE = os.getenv("FD_TZ", "UTC")
 
 USE_I18N = True
 
@@ -123,4 +155,4 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
