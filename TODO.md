@@ -21,4 +21,10 @@
 * [ ] Refactor update_data admin command to enable multiple tan requests
 * [X] Include start of fd backend server into manage.py
 * [ ] Refactor code to properly support multiple currencies
+* [ ] Add authentication
+* [ ] Add proper config file
+* [X] Format all code with black
+* [ ] Refactor api and make it consistent
 * [X] Get settings from external config file
+* [ ] Docker build fails if db is not existent
+* [ ] Import page crashes when no server is defined

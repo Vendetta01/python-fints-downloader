@@ -4,9 +4,9 @@ from fints_downloader.models import Account, AccountTypes
 
 
 class AccountListView(ListView):
-    template_name = 'accounts.html'
+    template_name = "accounts.html"
     model = Account
-    context_object_name = 'accounts'
+    context_object_name = "accounts"
     # paginate_by = 10
 
     def get_queryset(self):
@@ -14,7 +14,7 @@ class AccountListView(ListView):
 
 
 class AccountView(DetailView):
-    template_name = 'account.html'
+    template_name = "account.html"
     model = Account
 
     # def get_context_data(self, *args, **kwargs):

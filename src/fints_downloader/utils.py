@@ -11,9 +11,9 @@ def get_iban_bic(iban_str, bic_str, country_code):
     code = None
 
     if not iban_str:
-        iban_str = ''
+        iban_str = ""
     if not bic_str:
-        bic_str = ''
+        bic_str = ""
 
     try:
         iban = IBAN(iban_str)
@@ -58,10 +58,7 @@ def get_value(dictionary, *args, dst_type=None):
 
 
 def format_backend_url(ftsdb, endpoint):
-    return urljoin(urljoin(
-        f"{ftsdb.server}:{ftsdb.port}",
-        ftsdb.base_url),
-        endpoint)
+    return urljoin(urljoin(f"{ftsdb.server}:{ftsdb.port}", ftsdb.base_url), endpoint)
 
 
 class DateTimeEncoder(json.JSONEncoder):

@@ -22,18 +22,18 @@ class Account(BaseModel):
     code: str = None
     bank_name: str = None
 
-    @validator('accountnumber')
+    @validator("accountnumber")
     def check_iban_or_accoutnnumber(cls, accountnumber, values):
-        if 'iban' not in values and not accountnumber:
-            raise ValueError('either iban or accountnumber is required')
+        if "iban" not in values and not accountnumber:
+            raise ValueError("either iban or accountnumber is required")
         return accountnumber
 
     # TODO: for SEPAAccount we need at least the country code in the bic!
     # How do we deal with that???
-    @validator('code')
+    @validator("code")
     def check_bic_or_code(cls, code, values):
-        if 'bic' not in values and not code:
-            raise ValueError('either bic or code is required')
+        if "bic" not in values and not code:
+            raise ValueError("either bic or code is required")
         return code
 
 
@@ -87,6 +87,7 @@ class TransactionOut(BaseModel):
     posting_text: str = None
     purpose: str = None
     transaction_code: int = None
+
 
 # TODO: Maybe add TransactionsOut with opening and closing balance
 

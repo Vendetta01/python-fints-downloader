@@ -39,6 +39,10 @@ build-nc: migrate
 	@echo "Building docker image without cache..."
 	docker build --no-cache -t ${IMAGE_NAME} .
 
+docker-run: build
+	@echo "Running docker container..."
+	docker run -it --rm -p 8080:80 -p 8443:443 --name fints-downloader fints-downloader:latest
+
 model:
 	@echo "Generating model..."
 	source ./env/bin/activate; \

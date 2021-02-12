@@ -11,9 +11,9 @@ def get_iban_bic(iban_str, bic_str, country_code):
     code = None
 
     if not iban_str:
-        iban_str = ''
+        iban_str = ""
     if not bic_str:
-        bic_str = ''
+        bic_str = ""
 
     try:
         iban = IBAN(iban_str)
@@ -43,8 +43,7 @@ def get_iban_bic(iban_str, bic_str, country_code):
             pass
 
     if iban:
-        return iban.compact, iban.account_code, iban.bic.compact, \
-            iban.bank_code
+        return iban.compact, iban.account_code, iban.bic.compact, iban.bank_code
     else:
         return None, number, None, code
 
@@ -55,5 +54,5 @@ def make_SEPAAccount(account: Account):
         bic=account.bic,
         accountnumber=account.accountnumber,
         subaccount=None,
-        blz=account.code
+        blz=account.code,
     )

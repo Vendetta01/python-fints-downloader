@@ -4,9 +4,9 @@ from fints_downloader.models import Tag
 
 
 class TagListView(ListView):
-    template_name = 'tags.html'
+    template_name = "tags.html"
     model = Tag
-    context_object_name = 'tags'
+    context_object_name = "tags"
     # paginate_by = 10
 
     # def get_queryset(self):
@@ -14,7 +14,7 @@ class TagListView(ListView):
 
 
 class TagView(DetailView):
-    template_name = 'tag.html'
+    template_name = "tag.html"
     model = Tag
 
     # def get_context_data(self, *args, **kwargs):

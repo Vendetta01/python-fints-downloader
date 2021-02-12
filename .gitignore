@@ -5,3 +5,4 @@ env/*
 develop-eggs
 eggs
 *.sqlite3
+fints_downloader.conf

@@ -45,6 +45,7 @@ _allowed_hosts = os.getenv("FD_ALLOWED_HOSTS")
 if _allowed_hosts:
     ALLOWED_HOSTS = _allowed_hosts.slit(",")
 
+STATIC_ROOT = "static"
 
 # Application definition
 
@@ -90,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "fd.wsgi.application"
+WSGI_APPLICATION = "fints_downloader.wsgi.application"
 
 
 # Database
