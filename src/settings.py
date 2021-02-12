@@ -91,7 +91,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "fd.wsgi.application"
+WSGI_APPLICATION = "fints_downloader.wsgi.application"
 
 
 # Database
