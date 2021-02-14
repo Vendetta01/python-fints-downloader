@@ -42,12 +42,16 @@ class ImportFinTSGenericView(FormView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         context = {"form": form, "error_message": None}
+        connection_error = False
         fd_backend_base_url = FinTSDownloaderBackend.objects.first()
+        if not fd_backend_base_url:
+            connection_error = True
+            context["error_message"] = "No backend server available!"
+            return render(request, self.template_name, context)
         fd_backend_url_connect = format_backend_url(fd_backend_base_url, "connect")
         fd_backend_url_disconnect = format_backend_url(
             fd_backend_base_url, "disconnect"
         )
-        connection_error = False
 
         # Reset session
         # TODO: use https
