@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 
-from fints_downloader.models import Account, AccountTypes
+from fints_downloader.models.account import Account
+from fints_downloader.models.types import AccountTypes
 
 
 class AccountListView(ListView):

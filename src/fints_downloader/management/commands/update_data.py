@@ -3,12 +3,10 @@ import json
 import requests
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Max
-from fints_downloader.models import (
-    BankLogin,
-    Account,
-    Transaction,
-    FinTSDownloaderBackend,
-)
+from fints_downloader.models.account import Account
+from fints_downloader.models.banklogin import BankLogin
+from fints_downloader.models.fintsdownloaderbackend import FinTSDownloaderBackend
+from fints_downloader.models.transaction import Transaction
 from fints_downloader.views import importer
 from fints_downloader.utils import format_backend_url, DateTimeEncoder
 from backend.models import Connection, Account as BackendAccount, TransactionsIn

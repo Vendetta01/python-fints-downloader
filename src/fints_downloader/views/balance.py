@@ -1,7 +1,8 @@
 from chartjs.views.lines import BaseLineChartView
 from django.db.models import Sum
 
-from fints_downloader.models import Account, Transaction
+from fints_downloader.models.account import Account
+from fints_downloader.models.transaction import Transaction
 
 
 class BalanceLineChartJSON(BaseLineChartView):

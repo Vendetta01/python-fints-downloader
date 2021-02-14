@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView
 
-from fints_downloader.models import Tag
+from fints_downloader.models.tag import Tag
 
 
 class TagListView(ListView):
