@@ -26,5 +26,5 @@
 * [X] Format all code with black
 * [ ] Refactor api and make it consistent
 * [X] Get settings from external config file
-* [ ] Docker build fails if db is not existent
+* [X] Docker build fails if db is not existent -> no, folder to db was not existent
 * [ ] Import page crashes when no server is defined
