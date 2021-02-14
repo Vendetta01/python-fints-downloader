@@ -16,13 +16,13 @@
 * [ ] Update model.plantuml (maybe automatically from code???)
 * [X] Make target for model.plantuml
 * [X] Remove Balance
-* [ ] Create Dockerfile
+* [X] Create Dockerfile
 * [ ] Update accounts template (enable/disable foreign accounts)
 * [ ] Refactor update_data admin command to enable multiple tan requests
 * [X] Include start of fd backend server into manage.py
 * [ ] Refactor code to properly support multiple currencies
 * [ ] Add authentication
-* [ ] Add proper config file
+* [X] Add proper config file
 * [X] Format all code with black
 * [ ] Refactor api and make it consistent (maybe all endpoints as json and html?)
 * [X] Get settings from external config file
