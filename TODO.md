@@ -24,7 +24,7 @@
 * [ ] Add authentication
 * [ ] Add proper config file
 * [X] Format all code with black
-* [ ] Refactor api and make it consistent
+* [ ] Refactor api and make it consistent (maybe all endpoints as json and html?)
 * [X] Get settings from external config file
 * [X] Docker build fails if db is not existent -> no, folder to db was not existent
-* [ ] Import page crashes when no server is defined
+* [X] Import page crashes when no server is defined
