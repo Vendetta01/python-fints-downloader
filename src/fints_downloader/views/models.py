@@ -1,5 +1,8 @@
 from rest_framework import generics
-from fints_downloader.models import BankLogin, Account, Transaction, Holding
+from fints_downloader.models.account import Account
+from fints_downloader.models.banklogin import BankLogin
+from fints_downloader.models.holding import Holding
+from fints_downloader.models.transaction import Transaction
 from fints_downloader.serializers import (
     BankLoginSerializer,
     AccountSerializer,

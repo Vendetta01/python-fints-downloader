@@ -2,7 +2,8 @@ from django.views.generic import ListView, DetailView, FormView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from fints_downloader.models import Transaction, Category
+from fints_downloader.models.category import Category
+from fints_downloader.models.transaction import Transaction
 from fints_downloader.forms import CategorizeForm
 
 

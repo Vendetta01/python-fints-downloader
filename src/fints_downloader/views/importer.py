@@ -14,14 +14,12 @@ from fints_downloader.forms import (
     ImportHoldingsForm,
     TANForm,
 )
-from fints_downloader.models import (
-    BankLogin,
-    Account,
-    AccountTypes,
-    Transaction,
-    Holding,
-    FinTSDownloaderBackend,
-)
+from fints_downloader.models.account import Account
+from fints_downloader.models.banklogin import BankLogin
+from fints_downloader.models.holding import Holding
+from fints_downloader.models.fintsdownloaderbackend import FinTSDownloaderBackend
+from fints_downloader.models.transaction import Transaction
+from fints_downloader.models.types import AccountTypes
 from backend.models import (
     GenericIn,
     Connection,

@@ -1,7 +1,9 @@
 from django import forms
 from django.forms import models
 from django.forms.fields import MultipleChoiceField
-from fints_downloader.models import BankLogin, Account, Transaction
+from fints_downloader.models.account import Account
+from fints_downloader.models.banklogin import BankLogin
+from fints_downloader.models.transaction import Transaction
 from fints_downloader.widgets import BootstrapDateTimePickerInput
 
 

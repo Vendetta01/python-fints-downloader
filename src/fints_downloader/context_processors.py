@@ -1,12 +1,10 @@
-from fints_downloader.models import (
-    BankLogin,
-    Account,
-    Transaction,
-    Holding,
-    Tag,
-    Category,
-    AccountTypes,
-)
+from fints_downloader.models.account import Account
+from fints_downloader.models.banklogin import BankLogin
+from fints_downloader.models.category import Category
+from fints_downloader.models.holding import Holding
+from fints_downloader.models.tag import Tag
+from fints_downloader.models.transaction import Transaction
+from fints_downloader.models.types import AccountTypes
 
 
 def get_default_context(request):
