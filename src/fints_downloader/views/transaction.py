@@ -1,13 +1,14 @@
 from django.views.generic import ListView, DetailView, FormView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from fints_downloader.models.category import Category
 from fints_downloader.models.transaction import Transaction
 from fints_downloader.forms import CategorizeForm
 
 
-class TransactionList(ListView):
+class TransactionList(LoginRequiredMixin, ListView):
     template_name = "transactions.html"
     model = Transaction
     context_object_name = "transactions"
@@ -17,7 +18,7 @@ class TransactionList(ListView):
     #    return super().get_queryset().exclude(type=AccountTypes.FOREIGN)
 
 
-class TransactionDetail(DetailView):
+class TransactionDetail(LoginRequiredMixin, DetailView):
     template_name = "transaction.html"
     model = Transaction
 
@@ -29,7 +30,7 @@ class TransactionDetail(DetailView):
     #    return context
 
 
-class Categorize(FormView):
+class Categorize(LoginRequiredMixin, FormView):
     template_name = "categorize.html"
     form_class = CategorizeForm
     success_url = "/fints_downloader/transactions/categorize/"

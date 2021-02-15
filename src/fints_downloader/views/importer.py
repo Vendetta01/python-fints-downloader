@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
 import json
 
@@ -154,7 +155,7 @@ class ImportFinTSGenericView(FormView):
         return GenericIn(connection=backend_connection, account=backend_account).dict()
 
 
-class ImportAccountsView(ImportFinTSGenericView):
+class ImportAccountsView(LoginRequiredMixin, ImportFinTSGenericView):
     template_name = "importer.html"
     form_class = ImportAccountsForm
     fd_backend_endpoint = "accounts"
@@ -178,7 +179,7 @@ class ImportAccountsView(ImportFinTSGenericView):
 
 
 # FIXME: change bank etc.
-class ImportTransactionsView(ImportFinTSGenericView):
+class ImportTransactionsView(LoginRequiredMixin, ImportFinTSGenericView):
     template_name = "importer.html"
     form_class = ImportTransactionsForm
     fd_backend_endpoint = "transactions"
@@ -238,7 +239,7 @@ class ImportTransactionsView(ImportFinTSGenericView):
         ).dict()
 
 
-class ImportHoldingsView(ImportFinTSGenericView):
+class ImportHoldingsView(LoginRequiredMixin, ImportFinTSGenericView):
     template_name = "importer.html"
     form_class = ImportHoldingsForm
     fd_backend_endpoint = "holdings"
@@ -259,7 +260,7 @@ class ImportHoldingsView(ImportFinTSGenericView):
             ).save()
 
 
-class TANView(FormView):
+class TANView(LoginRequiredMixin, FormView):
     template_name = "importer_tan.html"
     form_class = TANForm
 

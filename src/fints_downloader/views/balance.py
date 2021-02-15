@@ -1,11 +1,12 @@
 from chartjs.views.lines import BaseLineChartView
 from django.db.models import Sum
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from fints_downloader.models.account import Account
 from fints_downloader.models.transaction import Transaction
 
 
-class BalanceLineChartJSON(BaseLineChartView):
+class BalanceLineChartJSON(LoginRequiredMixin, BaseLineChartView):
     def get_providers(seld):
         return ["Balance"]
 

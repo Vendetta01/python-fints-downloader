@@ -1,10 +1,11 @@
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from fints_downloader.models.account import Account
 from fints_downloader.models.types import AccountTypes
 
 
-class AccountListView(ListView):
+class AccountListView(LoginRequiredMixin, ListView):
     template_name = "accounts.html"
     model = Account
     context_object_name = "accounts"
@@ -14,7 +15,7 @@ class AccountListView(ListView):
         return super().get_queryset().exclude(type=AccountTypes.FOREIGN)
 
 
-class AccountView(DetailView):
+class AccountView(LoginRequiredMixin, DetailView):
     template_name = "account.html"
     model = Account
 

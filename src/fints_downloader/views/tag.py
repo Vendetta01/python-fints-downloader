@@ -1,9 +1,10 @@
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from fints_downloader.models.tag import Tag
 
 
-class TagListView(ListView):
+class TagListView(LoginRequiredMixin, ListView):
     template_name = "tags.html"
     model = Tag
     context_object_name = "tags"
@@ -13,7 +14,7 @@ class TagListView(ListView):
     #    return super().get_queryset().exclude(type=AccountTypes.FOREIGN)
 
 
-class TagView(DetailView):
+class TagView(LoginRequiredMixin, DetailView):
     template_name = "tag.html"
     model = Tag
 
